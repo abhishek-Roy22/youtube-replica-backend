@@ -35,7 +35,7 @@ export const loginUser = async (req, res) => {
     const token = await User.matchPassword(email, password);
 
     const payload = verifyToken(token);
-
+    req.user = payload;
     return res
       .status(200)
       .json({ message: 'Login successful', user: payload, token });
