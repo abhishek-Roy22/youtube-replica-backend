@@ -28,6 +28,10 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    //  I define matchpassword function in User model.
+    //  This function firstly find user associated with provided email.
+    //  Then verify hashed password with user password.
+    //  If everythig gose well this function return token, generated in generate token function.
     const token = await User.matchPassword(email, password);
 
     const payload = verifyToken(token);
