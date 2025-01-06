@@ -6,14 +6,28 @@ const channelSchema = new Schema(
       type: String,
       required: true,
     },
-    channelDesc: {
+    description: {
       type: String,
+    },
+    channelBanner: {
+      type: String,
+      default: '',
     },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
+    subscribers: {
+      type: Number,
+      default: 0,
+    },
+    videos: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Video',
+      },
+    ],
   },
   { timestamps: true }
 );
