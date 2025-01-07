@@ -4,6 +4,7 @@ import express from 'express';
 import connectToDB from './services/connection.js';
 import userRouter from './routes/userRoute.js';
 import channelRouter from './routes/channelRoute.js';
+import authenticateUser from './services/middleware.js';
 
 // Define new express instance
 const app = express();
@@ -19,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/user', userRouter);
-app.use('/api/user', channelRouter);
+app.use('/api/user', authenticateUser, channelRouter);
 
 // Connecting to database & Listining to the port
 connectToDB(process.env.MONGO_URL)
