@@ -61,7 +61,7 @@ userSchema.static('matchPassword', async function (email, password) {
   }
 
   const token = generateToken(user);
-  return token;
+  return { token, user };
 });
 
 const User = model('User', userSchema);

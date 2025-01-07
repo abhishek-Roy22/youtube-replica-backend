@@ -1,5 +1,5 @@
 import User from '../model/userSchema.js';
-import { verifyToken } from '../services/generateToken.js';
+import { generateToken } from '../services/generateToken.js';
 
 export const createUser = async (req, res) => {
   const { userName, email, password } = req.body;
@@ -15,9 +15,19 @@ export const createUser = async (req, res) => {
       email,
       password,
     });
-    return res
-      .status(201)
-      .json({ message: 'User created successfully', user: newUser });
+
+    // create token
+    const token = generateToken(newUser);
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+
+    return res.status(201).json({
+      message: 'User created successfully',
+      user: { userName, email },
+    });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ error: error.message });
@@ -32,13 +42,20 @@ export const loginUser = async (req, res) => {
     //  This function firstly find user associated with provided email.
     //  Then verify hashed password with user password.
     //  If everythig gose well this function return token, generated in generate token function.
-    const token = await User.matchPassword(email, password);
+    const { token, user } = await User.matchPassword(email, password);
 
-    const payload = verifyToken(token);
-    req.user = payload;
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+
     return res
       .status(200)
-      .json({ message: 'Login successful', user: payload, token });
+      .json({
+        message: 'Login successful',
+        user: { userName: user.userName, email: user.email },
+      });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ error: error.message });
