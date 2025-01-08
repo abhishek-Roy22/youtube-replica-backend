@@ -17,7 +17,7 @@ const app = express();
 app.use(
   cors({
     origin:
-      'https://you-tube-replica-frontend-abhishekroy22s-projects.vercel.app/',
+      'https://you-tube-replica-frontend-abhishekroy22s-projects.vercel.app',
     credentials: true, // Ensure cookies and headers are allowed
   })
 );
