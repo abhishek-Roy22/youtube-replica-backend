@@ -20,8 +20,8 @@ export const createUser = async (req, res) => {
     const token = generateToken(newUser);
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'Strict',
+      secure: process.env.NODE_ENV === 'production', // set secure flag based on environment
+      sameSite: 'strict',
       maxAge: 43200000,
     });
 
@@ -47,8 +47,8 @@ export const loginUser = async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'Strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
       maxAge: 43200000,
     });
 
