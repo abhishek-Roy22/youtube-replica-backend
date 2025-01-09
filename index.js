@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Server is running BRO!</h1>');
 });
 //To check whether the user is logged
-app.get('/auth/check', authenticateCookie(), (req, res) => {
+app.get('/auth/check', authenticateUser, (req, res) => {
   res.status(200).json({ message: 'User is authenticated', user: req.user });
 });
 app.use('/api/user', userRouter);
