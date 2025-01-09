@@ -29,7 +29,10 @@ const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('<h1>Server is running BRO!</h1>');
 });
-
+//To check whether the user is logged
+app.get('/auth/check', authenticateCookie(), (req, res) => {
+  res.status(200).json({ message: 'User is authenticated', user: req.user });
+});
 app.use('/api/user', userRouter);
 app.use('/api/user', authenticateUser, channelRouter);
 app.use('/api/user', authenticateUser, videoRouter);
