@@ -50,12 +50,24 @@ export const loginUser = async (req, res) => {
       sameSite: 'None',
     });
 
-    return res
-      .status(200)
-      .json({
-        message: 'Login successful',
-        user: { userName: user.userName, email: user.email },
-      });
+    return res.status(200).json({
+      message: 'Login successful',
+      user: { userName: user.userName, email: user.email },
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+    return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ error: error.message });
