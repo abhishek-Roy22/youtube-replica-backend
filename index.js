@@ -14,13 +14,13 @@ import cors from 'cors';
 const app = express();
 
 // Define Middleware
+app.use(express.json());
 app.use(
   cors({
     origin: 'https://you-tube-replica-frontend-eight.vercel.app',
     credentials: true, // Ensure cookies and headers are allowed
   })
 );
-app.use(express.json());
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
