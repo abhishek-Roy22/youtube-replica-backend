@@ -21,10 +21,11 @@ export const createUser = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'None',
+      sameSite: 'Strict',
+      maxAge: 43200000,
     });
 
-    return res.status(201).json({
+    res.status(201).json({
       message: 'User created successfully',
       user: { userName, email },
     });
@@ -47,10 +48,11 @@ export const loginUser = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'None',
+      sameSite: 'Strict',
+      maxAge: 43200000,
     });
 
-    return res.status(200).json({
+    res.status(200).json({
       message: 'Login successful',
       user: { userName: user.userName, email: user.email },
     });
@@ -65,7 +67,7 @@ export const logoutUser = async (req, res) => {
     res.clearCookie('token', {
       httpOnly: true,
       secure: true,
-      sameSite: 'None',
+      sameSite: 'Strict',
     });
     return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
